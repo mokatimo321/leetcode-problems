@@ -4,8 +4,12 @@ public:
         int curr_sum = 0, best_sum = nums[0];
         for(int i = 0;i<nums.size();i++) {
             curr_sum += nums[i];
-            curr_sum = max(curr_sum, nums[i]);
-            best_sum = max(best_sum, curr_sum);
+            if(nums[i] > curr_sum) {
+                curr_sum = nums[i];
+            }
+            if(curr_sum > best_sum) {
+                best_sum = curr_sum;
+            }
         }
         return best_sum;
     }
