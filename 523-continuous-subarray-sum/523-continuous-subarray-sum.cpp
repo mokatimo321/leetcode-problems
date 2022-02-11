@@ -13,13 +13,9 @@ public:
                 if(i - mp[rem].second == 0) {
                     cnt--;
                 }
-                mp[rem].first++;
-                mp[rem].second = i+1;
             }
-            else {
-                mp[rem].first = 1;
-                mp[rem].second = i+1;
-            }
+            mp[rem].first++;
+            mp[rem].second = i+1;
         }
         return cnt;
     }
