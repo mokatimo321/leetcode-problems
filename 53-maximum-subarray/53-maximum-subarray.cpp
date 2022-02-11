@@ -6,7 +6,6 @@ public:
             curr_sum += nums[i];
             curr_sum = max(curr_sum, nums[i]);
             best_sum = max(best_sum, curr_sum);
-            cout<<best_sum<<endl;
         }
         return best_sum;
     }
