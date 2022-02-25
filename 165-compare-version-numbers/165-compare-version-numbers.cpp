@@ -6,9 +6,6 @@ public:
         int temp = 0;
         for(int i = 0;i<v.length();i++) {
            if(v[i] == '.') {
-               // if(temp != 0) {
-               //     res.push_back(temp);
-               // }
                res.push_back(temp);
                temp = 0;
            }
@@ -16,9 +13,6 @@ public:
                temp = temp*10 + (int(v[i]) - 48);
            } 
         }
-        // if(temp != 0) {
-        //    res.push_back(temp);
-        // }
         res.push_back(temp);
         return res;
     }
