@@ -39,14 +39,9 @@ public:
             carry = temp / 10;
         }
         if(carry) {
-            if(len1 > len2) {
-                ListNode *new_node = new ListNode(carry);
-                last_p->next = new_node;
-            }
-            else {
-                ListNode *new_node = new ListNode(carry);
-                last_q->next = new_node;
-            }
+            ListNode *new_node = new ListNode(carry);
+            last_p->next = new_node;
+            last_q->next = new_node;
         }
         return len1 > len2 ? l1 : l2;
     }
