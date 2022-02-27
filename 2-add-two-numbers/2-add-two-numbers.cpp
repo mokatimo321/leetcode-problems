@@ -11,38 +11,47 @@
 class Solution {
 public:
     ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
-        ListNode dummy_head(0);
-        ListNode *p = &dummy_head;
-        
-        int extra = 0;
-        int sum = 0;
-        int a = 0;
-        int b = 0;
-        while(l1 || l2 || extra) {
-            if(l1) {
-                a = l1->val;
+        ListNode *p = l1, *q = l2;
+        ListNode *last_p, *last_q;
+        int len1 = 1, len2 = 1;
+        int carry = 0;
+        while(p || q) {
+            int a = 0, b = 0;
+            if(p) {
+                a = p->val;
             }
-            else {
-                 a = 0;
+            if(q) {
+                b = q->val;
             }
-            
-            if(l2) {
-                b = l2->val;
+            int temp = (a + b + carry);
+            if(p) {
+                p->val = temp % 10;
             }
-            else {
-                b = 0;
+            if(q) {
+                q->val = temp % 10;
             }
-            sum = a + b + extra;
-            extra = sum/10;
-            p->next = new ListNode(sum%10);
-            p = p->next;
-            if(l1 != nullptr) {
-                l1 = l1->next;
+            carry = temp / 10;
+            if(p) {
+                last_p = p;
+                p = p->next;
+                len1++;
             }
-            if(l2 != nullptr) {
-                l2 = l2->next;
+            if(q) {
+                last_q = q;
+                q = q->next;
+                len2++;
             }
         }
-        return dummy_head.next;
+        if(carry) {
+            if(len1 > len2) {
+                ListNode *new_node = new ListNode(carry);
+                last_p->next = new_node;
+            }
+            else {
+                ListNode *new_node = new ListNode(carry);
+                last_q->next = new_node;
+            }
+        }
+        return len1 > len2 ? l1 : l2;
     }
 };
