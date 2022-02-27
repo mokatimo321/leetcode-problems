@@ -26,21 +26,17 @@ public:
             int temp = (a + b + carry);
             if(p) {
                 p->val = temp % 10;
-            }
-            if(q) {
-                q->val = temp % 10;
-            }
-            carry = temp / 10;
-            if(p) {
                 last_p = p;
                 p = p->next;
                 len1++;
             }
             if(q) {
+                q->val = temp % 10;
                 last_q = q;
                 q = q->next;
                 len2++;
             }
+            carry = temp / 10;
         }
         if(carry) {
             if(len1 > len2) {
