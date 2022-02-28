@@ -8,22 +8,14 @@ public:
         
         vector<string> res(numRows, "");
         
-        int track = 0, fl = 1;
+        int track = 0, fl = -1;
         
-        res[track] += s[0];
-        track++;
-        
-        for(int i = 1;i<s.length();i++) {
-            res[track] += s[i];
-            if(track == 0 || track == numRows - 1) {
+        for(int i = 0;i<s.length();i++) {
+            if(i%(numRows - 1) == 0) {
                 fl *= -1;
             }
-            if(fl == 1) {
-                track++;
-            }
-            else {
-                track--;
-            }
+            res[track] += s[i];
+            track += fl;
         }
         
         string ans = "";
