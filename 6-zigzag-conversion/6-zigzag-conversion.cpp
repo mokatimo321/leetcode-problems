@@ -15,7 +15,7 @@ public:
         
         for(int i = 1;i<s.length();i++) {
             res[track] += s[i];
-            if(track == 0 || track == numRows-1) {
+            if(track == 0 || track == numRows - 1) {
                 fl *= -1;
             }
             if(fl == 1) {
