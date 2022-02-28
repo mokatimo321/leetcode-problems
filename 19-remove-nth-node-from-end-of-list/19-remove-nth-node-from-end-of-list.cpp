@@ -11,37 +11,26 @@
 class Solution {
 public:
     ListNode* removeNthFromEnd(ListNode* head, int n) {
-        if(head == NULL) {
-            return head;
-        }
+
+        ListNode *p = head, *q = head;
+        ListNode *last;
         
-        int c = 0;
-        struct ListNode *p = head;
-        
-        while(p != NULL) {
-            c++;
-            if(c == n) {
-                break;
-            }
+        while(n) {
             p = p->next;
+            n--;
         }
         
-        struct ListNode *q = head;
-        struct ListNode *r;
+        if(!p) {
+            return head->next;
+        }
         
-        while(p->next != NULL) {
-            c++;
-            r = q;
+        while(p) {
+            last = q;
             q = q->next;
             p = p->next;
         }
         
-        if(n == c) {
-            return head->next;
-        }
-        
-        r->next = q->next;
-        
+        last->next = q->next;
         
         return head;
     }
