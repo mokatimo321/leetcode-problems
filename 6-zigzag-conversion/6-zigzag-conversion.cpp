@@ -1,40 +1,37 @@
 class Solution {
 public:
-    string convert(string s, int nr) {
-        if(s.length() == 1 || nr == 1) {
+    string convert(string s, int numRows) {
+        
+        if(numRows == 1) {
             return s;
         }
-        vector<string> mo(nr, "");
-        int j = 0;
-        int fl1 = 1;
-        int fl2 = 0;
-        for(int i = 0;i<s.length();i++) {
-            if(fl1 == 1) {
-                mo[j] += s[i];
-                if(j == nr - 1) {
-                    fl1 = 0;
-                    fl2 = 1;
-                    j--;
-                }
-                else {
-                    j++;
-                }
+        
+        vector<string> res(numRows, "");
+        
+        int track = 0, fl = 1;
+        
+        res[track] += s[0];
+        track++;
+        
+        for(int i = 1;i<s.length();i++) {
+            res[track] += s[i];
+            if(track == 0 || track == numRows-1) {
+                fl *= -1;
             }
-            else if(fl2 == 1) {
-                mo[j] += s[i];
-                if(j == 0) {
-                    fl2 = 0;
-                    fl1 = 1;
-                    j++;
-                }
-                else {
-                    j--;
-                }
+            if(fl == 1) {
+                track++;
+            }
+            else {
+                track--;
             }
         }
-        for(int i = 1;i<mo.size();i++) {
-            mo[0] += mo[i];
+        
+        string ans = "";
+        
+        for(int i = 0;i<res.size();i++) {
+            ans += res[i];
         }
-        return mo[0];
+            
+        return ans;
     }
 };
