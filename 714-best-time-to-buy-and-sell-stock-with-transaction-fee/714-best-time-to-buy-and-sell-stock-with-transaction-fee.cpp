@@ -9,7 +9,7 @@ public:
             best_sell = max(best_sell, ((nums[i] + best_buy) - fee));  
         }
         
-        return max(best_buy, best_sell);
+        return best_sell;
         
     }
 };
