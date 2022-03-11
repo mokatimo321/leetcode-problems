@@ -14,7 +14,7 @@ public:
         int sum = sm(nums);
         int req = (sum + target)/2;
         
-        if(abs(target) > sum || (target + sum) & 1) {
+        if(abs(target) > sum || (target + sum) %2 != 0) {
             return 0;
         }
         
