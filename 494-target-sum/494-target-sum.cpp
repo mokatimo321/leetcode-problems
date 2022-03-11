@@ -4,11 +4,12 @@ public:
     int findTargetSumWays(vector<int>& nums, int target) {
         
         int sum = accumulate(nums.begin(), nums.end(), 0);
-        int req = (target + sum)/2;
         
         if(abs(target) > sum || (sum + target) %2 != 0) {
             return 0;
         }
+        
+        int req = (target + sum)/2;
         
         vector<vector<int>> dp(nums.size() + 1, vector<int> (req + 1, 0));
         
