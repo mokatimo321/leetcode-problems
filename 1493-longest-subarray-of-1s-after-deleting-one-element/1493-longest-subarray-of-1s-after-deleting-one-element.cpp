@@ -23,21 +23,17 @@ public:
                 cnt++;
             }
             else {
-                if(i == nums.size() - 1) {
-                    max_len = max(max_len, cnt);
-                }
-                else {
+                if(i != nums.size() - 1) {
                     max_len = max(max_len, cnt + memo[i+1]);
                     cnt = 0;
+                }
+                else {
+                    max_len = max(max_len, cnt);
                 }
             }
         }
         
-        if(cnt == nums.size()) {
-            return cnt - 1;
-        }
-        
-        return max_len;
+        return cnt == nums.size() ? cnt - 1 : max_len;
         
     }
 };
