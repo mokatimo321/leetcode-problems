@@ -3,7 +3,7 @@ public:
     int longestSubarray(vector<int>& nums) {
         
         vector<int> memo(nums.size(), 0);
-        int cnt = 0;
+        int cnt = 0, max_len = INT_MIN, sz = nums.size();
         
         for(int i = nums.size() - 1;i>=0;i--) {
             if(nums[i] == 1) {
@@ -16,8 +16,6 @@ public:
         }
         
         cnt = 0;
-        int sz = nums.size();
-        int max_len = INT_MIN;
         
         for(int i = 0;i<nums.size();i++) {
             if(nums[i] == 1) {
