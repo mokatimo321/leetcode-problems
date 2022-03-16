@@ -16,6 +16,7 @@ public:
         }
         
         cnt = 0;
+        int sz = nums.size();
         int max_len = INT_MIN;
         
         for(int i = 0;i<nums.size();i++) {
@@ -33,7 +34,7 @@ public:
             }
         }
         
-        return cnt == nums.size() ? cnt - 1 : max_len;
+        return cnt == sz ? cnt - 1 : max_len;
         
     }
 };
