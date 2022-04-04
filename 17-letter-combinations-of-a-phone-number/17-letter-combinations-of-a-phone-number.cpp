@@ -1,10 +1,9 @@
 class Solution {
 public:
     
-    vector<string> combi = {"abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
-    vector<string> result;
     
-    void mo(string digits, string s, int index, int sz) {
+    
+    void mo(string digits, string s, int index, int sz, vector<string> combi, vector<string> &result) {
         
         //base case
         if(index == sz) {
@@ -12,9 +11,11 @@ public:
             return;
         }
         
+        int temp = (int(digits[index]) - 48) - 2;
+        
         //recur call
-        for(int i = 0;i<combi[(int(digits[index]) - 48) - 2].length();i++) {
-            mo(digits, s + combi[(int(digits[index]) - 48) - 2][i], index+1, sz);
+        for(int i = 0;i<combi[temp].length();i++) {
+            mo(digits, s + combi[temp][i], index+1, sz, combi, result);
         }
         
     }
@@ -23,7 +24,11 @@ public:
         if(digits == "") {
             return {};
         }
-        mo(digits, "", 0, digits.length());
+        
+        vector<string> combi = {"abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
+        vector<string> result;
+        
+        mo(digits, "", 0, digits.length(), combi, result);
         return result;
     }
 };
