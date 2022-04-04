@@ -1,18 +1,27 @@
 class Solution {
 public:
-    vector<vector<int>> subsets(vector<int>& nums) {
-        vector<vector<int>> subs;
-        vector<int> sub;
-        subsets(nums, 0, sub, subs);
-        return subs;
-    }
-private:
-    void subsets(vector<int>& nums, int i, vector<int>& sub, vector<vector<int>>& subs) {
-        subs.push_back(sub);
-        for (int j = i; j < nums.size(); j++) {
-            sub.push_back(nums[j]);
-            subsets(nums, j + 1, sub, subs);
-            sub.pop_back();
+    
+    void mo(vector<int> nums, vector<vector<int>> &ans, vector<int> &subset, int index) {
+        
+        ans.push_back(subset);
+        
+        for(int i = index;i<nums.size();i++) {
+            
+            subset.push_back(nums[i]);
+            mo(nums, ans, subset, i+1);
+            
+            subset.pop_back();
+            
         }
+        
+        return;
+        
+    }
+    
+    vector<vector<int>> subsets(vector<int>& nums) {
+        vector<int> subset;
+        vector<vector<int>> ans;
+        mo(nums, ans, subset, 0);
+        return ans;
     }
 };
