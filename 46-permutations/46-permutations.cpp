@@ -10,11 +10,11 @@ public:
         }
         //recur case
         for(int i = 0;i<nums.size();i++) {
-            if(memo[nums[i] + 10] == 0) {
+            if(memo[i] == 0) {
                 sub[index] = nums[i];
-                memo[nums[i] + 10] = 1;
+                memo[i] = 1;
                 generate(nums, result, sub, memo, index + 1, sz);
-                memo[nums[i] + 10] = 0;
+                memo[i] = 0;
             }
         }
     }
@@ -22,7 +22,7 @@ public:
     vector<vector<int>> permute(vector<int>& nums) {    
         vector<vector<int>> result;
         vector<int> sub(nums.size(), 0);
-        vector<int> memo(21, 0);
+        vector<int> memo(nums.size(), 0);
         int sz = nums.size();
         generate(nums, result, sub, memo, 0, sz);
         return result;
