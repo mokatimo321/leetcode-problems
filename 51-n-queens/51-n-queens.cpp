@@ -4,9 +4,8 @@ public:
     
     bool canPlace(vector<string> board, int i, int j, int n) {
         
-        int x, y;
         //to check for left diag
-        x = i, y = j;
+        int x = i, y = j;
         while(x >= 0 && y >= 0) {
             if(board[x][y] == 'Q') {
                 return false;
@@ -16,7 +15,7 @@ public:
         
         //to check for right diag
         x = i, y = j;
-        while(x >= 0 && y <= n - 1) {
+        while(x >= 0 && y <= n-1) {
             if(board[x][y] == 'Q') {
                 return false;
             }
@@ -51,8 +50,6 @@ public:
                 board[i][j] = '.';
             }
         }
-        
-        // return false;
         
     }
     
