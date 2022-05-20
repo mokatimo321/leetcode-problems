@@ -1,7 +1,7 @@
 class Solution {
 public:
     
-    void PrintPath(vector<vector<int>> graph, vector<int> PathSoFar, vector<vector<int>> &result, int src, int dst, vector<bool> visited) {
+    void PrintPath(vector<vector<int>> graph, vector<int> PathSoFar, vector<vector<int>> &result, int src, int dst) {
         
         //base case
         if(src == dst) {
@@ -10,13 +10,10 @@ public:
             return;
         }
         
-        visited[src] = true;
         PathSoFar.push_back(src);
         
         for(int i = 0;i<graph[src].size();i++) {
-            if(visited[graph[src][i]] == false) {
-                PrintPath(graph, PathSoFar, result, graph[src][i], dst, visited);
-            }
+            PrintPath(graph, PathSoFar, result, graph[src][i], dst);
         }
         
     }
@@ -26,12 +23,11 @@ public:
         
         vector<vector<int>> result;
         vector<int> PathSoFar;
-        vector<bool> visited(graph.size(), false);
         
         int src = 0;
         int dst = graph.size() - 1;
         
-        PrintPath(graph, PathSoFar, result, src, dst, visited);
+        PrintPath(graph, PathSoFar, result, src, dst);
         return result;
         
     }
