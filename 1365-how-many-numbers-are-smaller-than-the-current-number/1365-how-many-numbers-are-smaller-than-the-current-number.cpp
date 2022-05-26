@@ -1,21 +1,28 @@
 class Solution {
 public:
     vector<int> smallerNumbersThanCurrent(vector<int>& nums) {
-        map<int, int> mp;
+        
+        vector<int> mo = nums;
+        sort(nums.begin(), nums.end());
+        vector<int> temp(500, 0);
+        int val = nums[0], cnt = 0;
+        
         for(int i = 0;i<nums.size();i++) {
-            mp[nums[i]]++;
+            if(nums[i] == val) {
+                cnt++;
+            }
+            else {
+                temp[nums[i]] = cnt;
+                val = nums[i];
+                cnt++;
+            }
         }
-        int temp = 0;
-        map<int, int> :: iterator itr;
-        for(itr = mp.begin();itr != mp.end();itr++) {
-            int val = itr->second;
-            itr->second = temp;
-            temp += val;
+        
+        for(int i = 0;i<mo.size();i++) {
+            mo[i] = temp[mo[i]];
         }
-        for(int i = 0;i<nums.size();i++) {
-            cout<<mp[nums[i]]<<endl;
-            nums[i] = mp[nums[i]];
-        }
-        return nums;
+        
+        return mo;
+        
     }
 };
