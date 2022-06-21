@@ -1,38 +1,60 @@
 class Solution {
 public:
-    int furthestBuilding(vector<int>& ht, int b, int l) {
+    
+    bool check(vector<int> ht, int b, int l, int index) {
         
-        priority_queue<int> q;
-        int i = 0, dist = 0;
+        //store the height differences which requires bricks or ladders
+        vector<int> diff;
+        for(int i = 0;i<index;i++) {
+            if(ht[i+1] > ht[i]) {
+                diff.push_back(ht[i+1] - ht[i]);
+            }
+        }
         
-        for(i;i<ht.size() - 1;i++) {
-            dist = ht[i+1] - ht[i];
-            if(dist <= 0) {
-                continue;
+        //sort the differences verctor in decreasing order
+        sort(diff.begin(), diff.end(), greater<int>());
+        
+        //to check whther all the differences cxan be covered using bricks & ladders or not
+        for(int i = 0;i<diff.size();i++) {
+            if(l) {
+                l--;
             }
             else {
-                if(b >= dist) {
-                    q.push(dist);
-                    b -= dist;
-                }
-                else if(q.size() > 0 && q.top() >= dist && l > 0) {
-                    b = (b + q.top()) - dist;
-                    q.pop();
-                    q.push(dist);
-                    l--;
+                if(b >= diff[i]) {
+                    b-= diff[i];
                 }
                 else {
-                    if(l > 0) {
-                        l--;
-                    }
-                    else {
-                        break;
-                    }
+                    return false;
                 }
             }
         }
         
-        return i;
+        return true;
+        
+    }
+    
+    
+    int furthestBuilding(vector<int>& ht, int b, int l) {
+        
+        int low = 0, high = ht.size()-1;
+        int mid = 0;
+        
+        while(low < high) {
+            
+            mid = (low + high + 1)/2;
+            //cout<<mid<<endl;
+            
+            if(check(ht, b, l, mid)) {
+                low = mid;
+            }
+            else {
+                high = mid - 1;
+            }
+            
+        }
+        
+        return low;
+        
         
     }
 };
