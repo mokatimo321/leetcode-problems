@@ -12,8 +12,7 @@ public:
                 last_time += cst[i][1];
             }
             waiting_time += last_time - cst[i][0];
-        }
-        waiting_time /= cst.size();
-        return waiting_time;
+        } 
+        return waiting_time/cst.size();;
     }
 };
