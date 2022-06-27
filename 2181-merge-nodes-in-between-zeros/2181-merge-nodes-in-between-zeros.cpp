@@ -12,8 +12,7 @@ class Solution {
 public:
     ListNode* mergeNodes(ListNode* head) {
         
-        ListNode* start = head;
-        ListNode* late_start = start;
+        ListNode *start = head, *late_start = head;
         int present_sum = 0;
         
         ListNode* p = head->next;
