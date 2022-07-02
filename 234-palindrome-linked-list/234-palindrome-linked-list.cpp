@@ -11,21 +11,20 @@
 class Solution {
 public:
     
-    void mo(ListNode *p, ListNode* &q, bool &res) {
+    bool helper(ListNode *p, ListNode *&q) {
+        
         if(p == NULL) {
-            return;
+            return true;
         }
-        mo(p->next, q, res);
-        if(p->val != q->val) {
-            res = false;
-        }
+        
+        bool isPalindrome = helper(p->next, q) && p->val == q->val;
         q = q->next;
+        return isPalindrome;
+        
     }
     
     bool isPalindrome(ListNode* head) {
-        bool res = true;
-        ListNode* q = head;
-        mo(head, q, res);
-        return res;
+        ListNode *p = head, *q = head;
+        return helper(p, q);
     }
 };
