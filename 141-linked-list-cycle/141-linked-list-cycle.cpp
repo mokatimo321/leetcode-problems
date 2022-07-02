@@ -10,7 +10,7 @@ class Solution {
 public:
     bool hasCycle(ListNode *head) {
         
-        if(!head || head->next == NULL || head->next->next == NULL) {
+        if(!head) {
             return false;
         }
         
