@@ -1,22 +1,32 @@
 class Solution {
 public:
     void sortColors(vector<int>& nums) {
-        int left = 0, middle = 0, right = nums.size() - 1;
-        while(middle <= right) {
-            if(nums[middle] == 0) {
-                nums[middle] = nums[left];
-                nums[left] = 0;
-                left++;
-                middle++;
+        
+        //keep 3 pointers low, mid & high
+        int low = 0, mid = 0, high = nums.size() - 1;
+        
+        //traverse through the array
+        while(high >= mid) {
+            
+            if(nums[mid] == 0) {
+                int temp = nums[low];
+                nums[low] = nums[mid];
+                nums[mid] = temp;
+                low++;
+                mid++;
             }
-            else if(nums[middle] == 1) {
-                middle++;
+            else if(nums[mid] == 1) {
+                mid++;
             }
             else {
-                nums[middle] = nums[right];
-                nums[right] = 2;
-                right--;
+                int temp = nums[high];
+                nums[high] = nums[mid];
+                nums[mid] = temp;
+                high--;
             }
+            
+            
         }
+        
     }
 };
