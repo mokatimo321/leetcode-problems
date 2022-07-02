@@ -12,22 +12,29 @@
 class Solution {
 public:
     
-    void mo(TreeNode* root, int level, int &mx, vector<int> &m) {
+    void right_view(TreeNode *root, vector<int> &result, int level, int &max_level) {
+        
         if(!root) {
             return;
         }
-        if(level > mx) {
-            mx = level;
-            m.push_back(root->val);
+        
+        if(level > max_level) {
+            result.push_back(root->val);
+            max_level = level;
         }
-        mo(root->right, level+1, mx, m);
-        mo(root->left, level+1, mx, m);
+        
+        right_view(root->right, result, level+1, max_level);
+        right_view(root->left, result, level+1, max_level);
+        
     }
     
+    
     vector<int> rightSideView(TreeNode* root) {
-        vector<int> m;
-        int mx = 0;
-        mo(root, 1, mx, m);
-        return m;
+        
+        vector<int> result;
+        int max_level = 0;
+        right_view(root, result, 1, max_level);
+        return result;
+        
     }
 };
