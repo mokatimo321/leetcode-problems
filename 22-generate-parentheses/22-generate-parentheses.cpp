@@ -21,9 +21,8 @@ public:
         
         //to add close bracket
         if(open > 0) {
-            open--;
             s += ")";
-            generate(n, s, result, count, open);
+            generate(n, s, result, count, open-1);
         }
         
         
