@@ -1,30 +1,37 @@
 class Solution {
 public:
     
-    //vector<string> result;
-    
-    void generate(vector<string> &result,string s,int index, int n, int fl, int cnt) {
+    void generate(int n, string s, vector<string> &result, int count, int open) {
         
-        if(index == 2*n) {
+        //base case
+        if(s.length() == 2*n) {
             result.push_back(s);
+            return;
         }
         
-        //putting an opening bracket
-        if(cnt < n) {
-            generate(result, s + "(", index + 1, n, fl + 1, cnt + 1);
+        
+        
+        //add open bracket
+        if(count < n) {
+            s += "(";
+            generate(n, s, result, count+1, open+1);
+            s.pop_back();
         }
         
-        //putting a closing bracket
-        if(fl > 0) {
-            generate(result, s + ")", index + 1, n, fl - 1, cnt);
+        
+        //to add close bracket
+        if(open > 0) {
+            open--;
+            s += ")";
+            generate(n, s, result, count, open);
         }
         
-    } 
-    
+        
+    }
     
     vector<string> generateParenthesis(int n) {
         vector<string> result;
-        generate(result, "", 0, n, 0, 0);
+        generate(n, "", result, 0, 0);
         return result;
     }
 };
