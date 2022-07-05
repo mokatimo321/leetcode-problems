@@ -4,10 +4,8 @@ public:
     void combine(vector<int> nums, int index, int curr_sum, vector<vector<int>> &result, vector<int> fill) {
         
         //base case
-        if(curr_sum <= 0 || index == nums.size()) {
-            if(curr_sum == 0) {
-                result.push_back(fill);
-            }
+        if(curr_sum == 0) {
+            result.push_back(fill);
             return;
         }
         
@@ -16,6 +14,9 @@ public:
         for(int i = index;i<nums.size();i++) {
             if(i > index && nums[i] == nums[i-1]) {
                 continue;
+            }
+            if(curr_sum < 0) {
+                break;
             }
             fill.push_back(nums[i]);
             combine(nums, i+1, curr_sum - nums[i], result, fill);
