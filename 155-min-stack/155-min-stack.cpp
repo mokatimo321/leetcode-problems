@@ -19,11 +19,13 @@ public:
     }
     
     void pop() {
-        if(mn == st.top()) {
+        
+        if(st.top() == mn) {
             st.pop();
             mn = st.top();
         }
         st.pop();
+        
     }
     
     int top() {
