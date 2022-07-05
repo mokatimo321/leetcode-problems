@@ -1,27 +1,32 @@
 class Solution {
 public:
     
-    void solve(vector<int> nums, vector<vector<int>> &result, int index) {
+    void permute(vector<int> nums, vector<vector<int>> &result, vector<int> fill, vector<int> &placed, int index) {
         
         //base case
         if(index == nums.size()) {
-            result.push_back(nums);
+            result.push_back(fill);
         }
         
         
-        //recur case
-        for(int i = index;i<nums.size();i++) {
-            swap(nums[index], nums[i]);
-            solve(nums, result, index + 1);
-            swap(nums[index], nums[i]);
+        //loop
+        for(int i = 0;i<nums.size();i++) {
+            if(placed[nums[i]+10] == 0) {
+                //add the element to the fill array
+                fill[index] = nums[i];
+                placed[nums[i] + 10] = 1;
+                permute(nums, result, fill, placed, index+1);
+                placed[nums[i] + 10] = 0;
+            }
         }
         
     }
     
-    
     vector<vector<int>> permute(vector<int>& nums) {
         vector<vector<int>> result;
-        solve(nums, result, 0);
+        vector<int> placed(21, 0);
+        vector<int> fill(nums.size(), 0);
+        permute(nums, result, fill, placed, 0);
         return result;
     }
 };
