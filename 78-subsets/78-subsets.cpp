@@ -1,19 +1,23 @@
 class Solution {
 public:
     
-    void generate(vector<vector<int>> &result, vector<int> nums, vector<int> subsets, int index) {
-        result.push_back(subsets);
+    void generate(vector<int> nums, int index, vector<vector<int>> &result, vector<int> fill) {
+        result.push_back(fill);
         for(int i = index;i<nums.size();i++) {
-            subsets.push_back(nums[i]);
-            generate(result, nums, subsets, i + 1);
-            subsets.pop_back();
+            //number is taken
+            fill.push_back(nums[i]);
+            generate(nums, i+1, result, fill);
+            //if the number is not taken
+            fill.pop_back();
         }
         return;
     }
     
+    
+    
     vector<vector<int>> subsets(vector<int>& nums) {
         vector<vector<int>> result;
-        generate(result, nums, {}, 0);
+        generate(nums, 0, result, {});
         return result;
     }
 };
