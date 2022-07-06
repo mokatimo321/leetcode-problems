@@ -1,16 +1,13 @@
 class Solution {
 public:
     
-    void combine(vector<int> nums, int index, int curr_sum, vector<vector<int>> &result, vector<int> fill) {
+    void combine(vector<int> nums, vector<vector<int>> &result, vector<int> fill, int index, int curr_sum) {
         
-        //base case
         if(curr_sum == 0) {
             result.push_back(fill);
             return;
         }
         
-        
-        //recur case
         for(int i = index;i<nums.size();i++) {
             if(i > index && nums[i] == nums[i-1]) {
                 continue;
@@ -19,10 +16,9 @@ public:
                 break;
             }
             fill.push_back(nums[i]);
-            combine(nums, i+1, curr_sum - nums[i], result, fill);
+            combine(nums, result, fill, i+1, curr_sum - nums[i]);
             fill.pop_back();
         }
-        
         
     }
     
@@ -30,7 +26,7 @@ public:
     vector<vector<int>> combinationSum2(vector<int>& nums, int target) {
         vector<vector<int>> result;
         sort(nums.begin(), nums.end());
-        combine(nums, 0, target, result, {});
+        combine(nums, result, {}, 0, target);
         return result;
     }
 };
