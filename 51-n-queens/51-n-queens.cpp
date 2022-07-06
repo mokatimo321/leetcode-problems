@@ -1,69 +1,75 @@
 class Solution {
 public:
     
-    
-    bool canPlace(vector<string> board, int i, int j, int n) {
+    bool validate(vector<string> grid, int r, int c, int n) {
+        //it is gonna return whether we can place the queen at this position or not
         
-        //to check for left diag
-        int x = i, y = j;
-        while(x >= 0 && y >= 0) {
-            if(board[x][y] == 'Q') {
+        //for vertical case
+        int i = r, j = c;
+        while(i >= 0) {
+            if(grid[i][j] == 'Q') {
                 return false;
             }
-            x--, y--;
+            i--;
         }
         
-        //to check for right diag
-        x = i, y = j;
-        while(x >= 0 && y <= n-1) {
-            if(board[x][y] == 'Q') {
+        //for left diagonal case
+        i = r, j = c;
+        while(i >= 0 && j >= 0) {
+            if(grid[i][j] == 'Q') {
                 return false;
             }
-            x--, y++;
+            i--, j--;
         }
         
-        //to check for col
-        for(x = 0; x < i; x++) {
-            if(board[x][j] == 'Q') {
+        //for right diagonal case
+        i = r, j = c;
+        while(i >= 0 && j < n) {
+            if(grid[i][j] == 'Q') {
                 return false;
             }
+            i--, j++;
         }
         
+        //this position is valid
         return true;
-        
     }
     
-    void solve(vector<vector<string>> &result, vector<string> board, int sz, int i) {
+    
+    void generate(int n, vector<vector<string>> &result, vector<string> fill, int index) {
         
         //base case
-        if(i == sz) {
-            result.push_back(board);
+        if(index == n) {
+            result.push_back(fill);
             return;
         }
         
         
         //recur case
-        for(int j = 0;j<sz;j++) {
-            if(canPlace(board, i, j, sz)) {
-                board[i][j] = 'Q';
-                solve(result, board, sz, i + 1);
-                board[i][j] = '.';
+        for(int i = 0;i<n;i++) {
+            if(validate(fill, index, i, n)) {
+                fill[index][i] = 'Q';
+                generate(n, result, fill, index+1);
+                fill[index][i] = '.';
             }
         }
         
+        
     }
+    
     
     vector<vector<string>> solveNQueens(int n) {
         vector<vector<string>> result;
-        vector<string> board;
-        string s = "";
+        vector<string> fill;
         for(int i = 0;i<n;i++) {
-            s += ".";
+            string s = "";
+            for(int i = 0;i<n;i++) {
+                s += ".";
+            }
+            fill.push_back(s);
         }
-        for(int i = 0;i<n;i++) {
-            board.push_back(s);
-        }
-        solve(result, board, n, 0);
+        int index = 0;
+        generate(n, result, fill, index);
         return result;
     }
 };
