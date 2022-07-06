@@ -1,21 +1,34 @@
 class Solution {
 public:
-    int rob(vector<int>& nums) {
-        vector<int> dp(nums.size(), 0);
-        for(int i = 0;i<nums.size();i++) {
-            if(i == 0) {
-                dp[i] = nums[i];
-            }
-            else if(i == 1) {
-                dp[i] = max(nums[i], nums[i-1]);
-            }
-            else if(nums[i] + dp[i-2] > dp[i-1]) {
-                dp[i] = nums[i] + dp[i-2];
-            }
-            else {
-                dp[i] = dp[i-1];
-            }
+    
+    int robber(vector<int> nums, int index, vector<int> &dp) {
+        
+        //base case
+        if(index >= nums.size()) {
+            return 0;
         }
-        return dp[nums.size() - 1];
+        
+        if(dp[index] != 0) {
+            return dp[index];
+        }
+        
+        //recur case
+        int rob = nums[index] + robber(nums, index+2, dp);
+        int not_rob = robber(nums, index+1, dp);
+        
+        dp[index] = max(rob, not_rob);
+        return dp[index];
+        
+    }
+    
+    int rob(vector<int>& nums) {
+        
+        int sm = accumulate(nums.begin(), nums.end(), 0);
+        if(sm == 0) {
+            return 0;
+        }
+        
+        vector<int> dp(nums.size(), 0);
+        return robber(nums, 0, dp);
     }
 };
