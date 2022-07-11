@@ -6,8 +6,14 @@ public:
         //base case
         
         //edge case
-        if(r < 0 || c < 0 || r >= grid.size() || c >= grid[0].size() || grid[r][c] == 1) {
+        if(r < 0 || c < 0 || r >= grid.size() || c >= grid[0].size()) {
             return 0;
+        }
+        
+        //obstacle case
+        if(grid[r][c] == 1) {
+            dp[r][c] = 0;
+            return dp[r][c];
         }
         
         //condition state
