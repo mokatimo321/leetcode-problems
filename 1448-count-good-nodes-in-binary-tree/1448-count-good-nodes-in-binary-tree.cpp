@@ -12,29 +12,26 @@
 class Solution {
 public:
     
-    void count_good(TreeNode* root, int max_val, int& cnt) {
+    int count_good(TreeNode* root, int max_val, int cnt) {
         
         //if not root
         if(!root) {
-            return;
+            return 0;
         }
         
+        cnt = 0;
         
         //check for max nodes
         if(root->val >= max_val) {
             max_val = root->val;
-            cnt++;
-            //cout<<root->val<<endl;
+            cnt = 1;
         }
         
-        count_good(root->left, max_val, cnt);
-        count_good(root->right, max_val, cnt);
+        return cnt + count_good(root->left, max_val, cnt) + count_good(root->right, max_val, cnt);
         
     }
     
     int goodNodes(TreeNode* root) {
-        int cnt = 0;
-        count_good(root, INT_MIN, cnt);
-        return cnt;
+        return count_good(root, INT_MIN, 0);
     }
 };
