@@ -1,22 +1,31 @@
 class Solution {
 public:
-    
-    int maxProfit(vector<int>& nums) {
-        vector<int> res(nums.size(), 0);
-        int best_buy = INT_MAX, max_prof = 0;
-        for(int i = 0;i<nums.size();i++) {
-            best_buy = min(best_buy, nums[i]);
-            max_prof = max(max_prof, nums[i] - best_buy);
-            res[i] = max_prof;
+    int maxProfit(vector<int>& prices) {
+        
+        //for the 2nd transaction
+        vector<int> prof(prices.size()+1, 0);
+        int sell_price = INT_MIN;
+        int max_prof = INT_MIN;
+        
+        for(int i = prices.size()-1;i>=0;i--) {
+            sell_price = max(sell_price, prices[i]);
+            max_prof = max(max_prof, sell_price - prices[i]);
+            prof[i] = max_prof;
         }
-        int temp = max_prof;
-        max_prof = 0;
-        int mx = INT_MIN, best_sell = INT_MIN;
-        for(int i = nums.size() - 1;i>0;i--) {
-            best_sell = max(best_sell, nums[i]);
-            max_prof = max(max_prof, best_sell - nums[i]);
-            mx = max(mx, max_prof + res[i-1]);
+
+        
+        //for the first transaction
+        int buy_price = INT_MAX;
+        max_prof = INT_MIN;
+        
+        for(int i = 0;i<prices.size();i++) {
+            buy_price = min(buy_price, prices[i]);
+            int current_prof = prices[i] - buy_price;
+            max_prof = max(max_prof, current_prof + prof[i+1]);
         }
-        return max(mx, temp);
+        
+        return max_prof;
+            
+            
     }
 };
