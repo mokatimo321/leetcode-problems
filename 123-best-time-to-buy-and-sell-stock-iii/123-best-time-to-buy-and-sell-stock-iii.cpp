@@ -1,31 +1,24 @@
 class Solution {
 public:
+    int dp[100001][2][3];
+    int f(int ind, int buy, vector<int> &prices, int n, int k) {
+        if(ind == n || k==0) return 0;
+        if(dp[ind][buy][k] != -1) return dp[ind][buy][k];
+        int profit = 0;
+        if(buy) {
+            int ifBuy = -prices[ind] + f(ind + 1, 0, prices, n, k);
+            int ifNotBuy = 0 + f(ind + 1, 1, prices, n, k);
+            profit = max(ifBuy, ifNotBuy);
+        }
+        else {
+            int ifSell = prices[ind] + f(ind + 1, 1, prices, n, k-1);
+            int ifNotSell = 0 + f(ind + 1, 0, prices, n, k);
+            profit = max(ifSell, ifNotSell);
+        }
+        return dp[ind][buy][k] = profit;
+    }
     int maxProfit(vector<int>& prices) {
-        
-        //for the 2nd transaction
-        vector<int> prof(prices.size()+1, 0);
-        int sell_price = INT_MIN;
-        int max_prof = INT_MIN;
-        
-        for(int i = prices.size()-1;i>=0;i--) {
-            sell_price = max(sell_price, prices[i]);
-            max_prof = max(max_prof, sell_price - prices[i]);
-            prof[i] = max_prof;
-        }
-
-        
-        //for the first transaction
-        int buy_price = INT_MAX;
-        max_prof = INT_MIN;
-        
-        for(int i = 0;i<prices.size();i++) {
-            buy_price = min(buy_price, prices[i]);
-            int current_prof = prices[i] - buy_price;
-            max_prof = max(max_prof, current_prof + prof[i+1]);
-        }
-        
-        return max_prof;
-            
-            
+        memset(dp, -1, sizeof(dp));
+        return f(0, 1, prices, prices.size(), 2);
     }
 };
