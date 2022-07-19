@@ -11,12 +11,9 @@
 class Solution {
 public:
     
-    ListNode* reverseList(ListNode* head) {
+    ListNode* rev(ListNode* head) {
         
-        //we will take 3 pointer to reverse the LL
-        ListNode *q = NULL, *r = NULL;
-        ListNode *p = head;
-        
+        ListNode *p = head, *q = NULL, *r = NULL;
         while(p) {
             r = q;
             q = p;
@@ -27,5 +24,9 @@ public:
         head = q;
         return head;
         
+    }
+    
+    ListNode* reverseList(ListNode* head) {
+        return rev(head);
     }
 };
