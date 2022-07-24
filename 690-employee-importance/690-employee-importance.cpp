@@ -11,12 +11,11 @@ public:
 class Solution {
 public:
     
-    int dfs(int id, unordered_map<int, Employee*> mp) {
-        int sum = 0;
+    void dfs(int id, unordered_map<int, Employee*> mp, int &sum) {
+        sum += mp[id]->importance;
         for(int i = 0;i<mp[id]->subordinates.size();i++) {
-            sum += dfs(mp[id]->subordinates[i], mp);
+            dfs(mp[id]->subordinates[i], mp, sum);
         }
-        return sum + mp[id]->importance;
     }
     
     
@@ -32,8 +31,12 @@ public:
             mp[x->id] = x;
         }
         
+        //to keep a track of the answer
+        int sum = 0;
+        
         //now we will do the dfs to get the importance of the given employee
-        return dfs(id, mp);
+        dfs(id, mp, sum);
+        return sum;
         
     }
 };
