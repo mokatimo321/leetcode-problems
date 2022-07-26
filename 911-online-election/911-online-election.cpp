@@ -1,20 +1,33 @@
 class TopVotedCandidate {
 public:
     
-    unordered_map<int, int> m;
-    vector<int> time_slots;
-    TopVotedCandidate(vector<int> persons, vector<int> times) {
-        int n = persons.size(), lead = -1;
-        this->time_slots = times;
-        unordered_map<int, int> count;
-        for (int i = 0; i < n; ++i) {
-            lead = ++count[persons[i]] >= count[lead] ? persons[i] : lead;
-            m[times[i]] = lead;
+    //this will store the person's id who is leading the election
+    unordered_map<int, int> mp;
+    vector<int> times;
+    
+    TopVotedCandidate(vector<int>& persons, vector<int>& times) {
+        
+        //we also need the times array
+        this->times = times;
+        
+        unordered_map<int, vector<int>> lead;
+        unordered_map<int, int> people;
+        int mx = 0;
+        for(int i = 0;i<times.size();i++) {
+            //store the vote of the current person
+            people[persons[i]]++;
+            //get the maximum vote till now
+            mx = max(mx, people[persons[i]]);
+            //store the vote count to check if there is any duplicate
+            lead[people[persons[i]]].push_back(persons[i]);
+            //store the final lead at this time instant
+            mp[times[i]] = lead[mx][lead[mx].size() - 1];
         }
+        
     }
     
     int q(int t) {
-        return m[*--upper_bound(time_slots.begin(), time_slots.end(), t)];
+        return mp[*--upper_bound(times.begin(), times.end(), t)];
     }
 };
 
