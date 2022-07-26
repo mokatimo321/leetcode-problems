@@ -11,32 +11,25 @@ public:
 class Solution {
 public:
     
-    void dfs(int id, unordered_map<int, Employee*> mp, int &sum) {
-        sum += mp[id]->importance;
+    //approach
+    //we will keep every instance of employee class in a map, mapped with its id
+    int dfs(unordered_map<int, Employee*> mp, int id) {
+        
+        int current_sum = mp[id]->importance;
         for(int i = 0;i<mp[id]->subordinates.size();i++) {
-            dfs(mp[id]->subordinates[i], mp, sum);
+            current_sum += dfs(mp, mp[id]->subordinates[i]);
         }
+        
+        //return the result
+        return current_sum;
+        
     }
     
-    
-    
-    int getImportance(vector<Employee*> emp, int id) {
-        
-        //standard graph question
-        //keep a map to have a track of the index using id
-        
-        //id -> mapped with the index in the employee vector
+    int getImportance(vector<Employee*> employees, int id) {
         unordered_map<int, Employee*> mp;
-        for(auto x : emp) {
-            mp[x->id] = x;
+        for(int i = 0;i<employees.size();i++) {
+            mp[employees[i]->id] = employees[i];
         }
-        
-        //to keep a track of the answer
-        int sum = 0;
-        
-        //now we will do the dfs to get the importance of the given employee
-        dfs(id, mp, sum);
-        return sum;
-        
+        return dfs(mp, id);
     }
 };
