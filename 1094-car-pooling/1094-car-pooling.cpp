@@ -1,51 +1,65 @@
 class Solution {
 public:
-    bool carPooling(vector<vector<int>>& tr, int cp) {
+    bool carPooling(vector<vector<int>>& trips, int capacity) {
         
-        typedef pair<int, int> pi;
+        //approach
+        //sort the trips time based on the time of pickup
+        //check whether thera are alreay any passengers or not
+        //Also maintain a priority queue to deboard some passengers when there trip is over while onboarding new passengers
+        //check whether there are any passengers still inside the car, if then check with the capacity
+        //if no passengers || start time > max(all the prior end times) which indicates that it is a fresh pickup thus we empty our existing priority queue
         
-        //interchanging the first and second index every vector to be able to sort based on the pickup time
-        for(int i = 0;i<tr.size();i++) {
-            int temp = tr[i][1];
-            tr[i][1] = tr[i][0];
-            tr[i][0] = temp;
+        //to sort on the basis of second element || first index we can either swap the values ot use lambda function to achieve it
+        //we will be swapping
+        
+        for(int i = 0;i<trips.size();i++) {
+            int temp = trips[i][0];
+            trips[i][0] = trips[i][1];
+            trips[i][1] = temp;
         }
         
-        //sorted based on the basis of pick-up location
-        sort(tr.begin(), tr.end());
-        int end = -1, current_cap = 0;
+        //sort the array based on the pickup time
+        sort(trips.begin(), trips.end());
         
-        //we also need to maintain a priority queue to remove the passenger whose journey is over while onboarding any new passenger
-        priority_queue<pi, vector<pi>, greater<pi>> pq;
+        //maintain a priority queue (min Heap)
+        typedef pair<int, int> pr;
+        priority_queue<pr, vector<pr>, greater<pr>> pq;
         
-        //traverse the array
-        for(int i = 0;i<tr.size();i++) {
-            //intersecting location
-            if(end > tr[i][0]) {
-                //mixed state
-                while(pq.size() > 0 && tr[i][0] >= pq.top().first) {
-                    current_cap -= pq.top().second;
-                    pq.pop();
-                }
-                if(current_cap + tr[i][1] > cp) {
-                    return false;
-                }
-                current_cap += tr[i][1];
-                end = max(end, tr[i][2]);
-                pq.push({tr[i][2], tr[i][1]});
-            }
-            else {
-                //clean state
-                current_cap = tr[i][1];
-                if(current_cap > cp) {
-                    return false;
-                }
-                end = tr[i][2];
-                //empty the current priority queue
+        //max end time
+        int end = -1;
+        
+        //travers the trips vector
+        for(int i = 0;i<trips.size();i++) {
+            //clean state
+            if(trips[i][0] >= end) {
                 while(pq.size() > 0) {
+                    capacity += pq.top().second;
                     pq.pop();
                 }
-                pq.push({tr[i][2], tr[i][1]});
+                if(trips[i][1] <= capacity) {
+                    capacity -= trips[i][1];
+                    pq.push({trips[i][2], trips[i][1]});
+                    end = max(end, trips[i][2]);
+                }
+                else {
+                    return false;
+                }
+                
+            }
+            //mixed state --> some passengers are already there
+            else {
+                while(pq.size() > 0 && pq.top().first <= trips[i][0]) {
+                    capacity += pq.top().second;
+                    pq.pop();
+                }
+                if(trips[i][1] <= capacity) {
+                    capacity -= trips[i][1];
+                    end = max(end, trips[i][2]);
+                    pq.push({trips[i][2], trips[i][1]});
+                }
+                else {
+                    return false;
+                }
             }
         }
         
