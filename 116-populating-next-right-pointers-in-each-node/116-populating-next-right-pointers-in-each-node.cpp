@@ -18,33 +18,22 @@ public:
 
 class Solution {
 public:
-    
-    void traverse(Node* root, vector<vector<Node*>> &memo, int level, int &max_level) {
-        
-        if(!root) {
-            return;
-        }
-        
-        if(level > max_level) {
-            max_level = level;
-            memo.push_back({root});
-        }
-        else {
-            memo[level-1].back()->next = root;
-            memo[level-1].push_back(root);
-        }
-        
-        traverse(root->left, memo, level+1, max_level);
-        traverse(root->right, memo, level+1, max_level);
-        
-    }
-    
     Node* connect(Node* root) {
-        
-        vector<vector<Node*>> memo;
-        int max_level = 0;
-        
-        traverse(root, memo, 1, max_level);
-        return root;
+        //O(1) -> Storage
+        Node* temp = root;
+        while(root) {
+            Node *p = root;
+            while(p) {
+                if(p->left) {
+                    p->left->next = p->right;
+                }
+                if(p->next && p->right) {
+                    p->right->next = p->next->left;
+                }
+                p = p->next;
+            }
+            root = root->left;
+        }
+        return temp;
     }
 };
