@@ -14,9 +14,7 @@ public:
     
     void helper(TreeNode* &root, TreeNode* &prev) {
         
-        if(!root) {
-            return;
-        }
+        if(!root) return;
         
         helper(root->right, prev);
         helper(root->left, prev);
@@ -27,7 +25,6 @@ public:
         prev = root;
         
     }
-    
     
     void flatten(TreeNode* root) {
         TreeNode* prev = NULL;
