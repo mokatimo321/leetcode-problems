@@ -10,26 +10,30 @@
  * };
  */
 class Solution {
-private:
-    vector<vector<int>> momo;
 public:
     
-    void mo(TreeNode* root, int sm, int tar, vector<int> m) {
+    void traverse(TreeNode* root, int sm, vector<int> fill, vector<vector<int>> &result) {
+        
+        //base case
         if(!root) {
             return;
         }
-        sm += root->val;
-        m.push_back(root->val);
-        if(sm == tar && !root->left && !root->right) {
-            momo.push_back(m);
+        
+        sm -= root->val;
+        fill.push_back(root->val);
+        
+        if(sm == 0 && !root->left && !root->right) {
+            result.push_back(fill);
         }
-        mo(root->left, sm, tar, m);
-        mo(root->right, sm, tar, m);
+        
+        traverse(root->left, sm, fill, result);
+        traverse(root->right, sm, fill, result);
+        
     }
     
-    vector<vector<int>> pathSum(TreeNode* root, int tar) {
-        vector<int> m;
-        mo(root, 0, tar, m);
-        return momo;
+    vector<vector<int>> pathSum(TreeNode* root, int targetSum) {
+        vector<vector<int>> result;
+        traverse(root, targetSum, {}, result);
+        return result;
     }
 };
