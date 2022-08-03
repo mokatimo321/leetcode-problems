@@ -11,22 +11,14 @@
  */
 class Solution {
 public:
-    
-    void mo(TreeNode* root, int sm, int tar, int &fl) {
+    bool hasPathSum(TreeNode* root, int sm) {
         if(!root) {
-            return;
+            return false;
         }
-        sm += root->val;
-        if(!root->left && !root->right && sm == tar) {
-            fl = 1;
+        sm -= root->val;
+        if(sm == 0 && !root->left && !root->right) {
+            return true;
         }
-        mo(root->left, sm, tar, fl);
-        mo(root->right, sm, tar, fl);
-    }
-    
-    bool hasPathSum(TreeNode* root, int tar) {
-        int fl = 0;
-        mo(root, 0, tar, fl);
-        return fl == 1 ? true : false;
+        return hasPathSum(root->left, sm) || hasPathSum(root->right, sm);
     }
 };
