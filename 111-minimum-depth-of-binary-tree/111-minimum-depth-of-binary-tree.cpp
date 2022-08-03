@@ -11,30 +11,16 @@
  */
 class Solution {
 public:
-    
-    void get_min(TreeNode* root, int level, int &min_level) {
-        
-        if(!root) {
-            return;
-        }
-        
-        if(!root->left && !root->right) {
-            min_level = min(min_level, level);
-        }
-        
-        get_min(root->left, level+1, min_level);
-        get_min(root->right, level+1, min_level);
-        
-        
-    }
-    
-    
     int minDepth(TreeNode* root) {
+        
         if(!root) {
             return 0;
         }
-        int min_level = INT_MAX;
-        get_min(root, 1, min_level);
-        return min_level;
+        
+        int left = minDepth(root->left);
+        int right = minDepth(root->right);
+        
+        return 1 + (min(left, right) ? min(left, right) : max(left, right));
+        
     }
 };
