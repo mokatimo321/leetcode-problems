@@ -21,54 +21,24 @@
  */
 class Solution {
 public:
-    
-    int get_val(ListNode* head, int index) {
+    TreeNode* sortedListToBST(ListNode* head, ListNode* tail = NULL) {
         
-        int cnt = 0;
-        while(head) {
-            if(index == cnt) {
-                return head->val;
-            }
-            cnt++;
-            head = head->next;
-        }
-        
-        return -1;
-        
-    }
-    
-    TreeNode* create(ListNode* head, int start, int end) {
-        
-        if(start > end) {
+        if(head == tail) {
             return NULL;
         }
         
-        int mid = start + (end - start)/2;
-        
-        TreeNode* new_node = new TreeNode(get_val(head, mid));
-        
-        if(start == end) {
-            return new_node;
+        ListNode* slow = head, *fast = head;
+        while(fast != tail && fast->next != tail) {
+            slow = slow->next;
+            fast = fast->next->next;
         }
         
-        new_node->left = create(head, start, mid-1);
-        new_node->right = create(head, mid+1, end);
+        //slow is the mid value;
+        TreeNode* new_node = new TreeNode(slow->val);
+        new_node->left = sortedListToBST(head, slow);
+        new_node->right = sortedListToBST(slow->next, tail);
         
         return new_node;
         
-    }
-    
-    int get_length(ListNode* head) {
-        int cnt = 0;
-        while(head) {
-            cnt++;
-            head = head->next;
-        }
-        return cnt;
-    }
-    
-    
-    TreeNode* sortedListToBST(ListNode* head) {
-        return create(head, 0, get_length(head) - 1);
     }
 };
