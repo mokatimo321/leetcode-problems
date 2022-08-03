@@ -10,28 +10,29 @@
  * };
  */
 class Solution {
-public: 
+public:
     
-    TreeNode* tree_maker(vector<int> nums, int low, int high) {
+    TreeNode* create(vector<int> nums, int start, int end) {
         
-        if(low > high) {
+        if(start > end) {
             return NULL;
         }
         
-        int mid = low + (high - low)/2;
-        TreeNode *root = new TreeNode(nums[mid]);
-        root->left = tree_maker(nums, low, mid - 1);
-        root->right = tree_maker(nums, mid + 1, high);
+        int mid = start + (end - start)/2;
+        TreeNode* new_node = new TreeNode(nums[mid]);
         
-        return root;
+        if(start == end) {
+            return new_node;
+        }
         
+        new_node->left = create(nums, start, mid-1);
+        new_node->right = create(nums, mid+1, end);
+        
+        return new_node;
     }
     
     
-    
     TreeNode* sortedArrayToBST(vector<int>& nums) {
-        
-        return tree_maker(nums, 0, nums.size() - 1);
-        
+        return create(nums, 0, nums.size()-1);
     }
 };
