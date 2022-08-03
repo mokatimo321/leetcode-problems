@@ -13,12 +13,13 @@ class Solution {
 public:
     
     int search(vector<int> inorder, int val) {
-        for(int i = 0;i<inorder.size();i++) {
+        int i = 0;
+        for(;i<inorder.size();i++) {
             if(inorder[i] == val) {
-                return i;
+                break;
             }
         }
-        return -1;
+        return i;
     }
     
     TreeNode* create(vector<int> preorder, vector<int> inorder, int start, int end, int &pre_index) {
