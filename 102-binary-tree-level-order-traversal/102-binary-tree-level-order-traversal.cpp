@@ -12,30 +12,30 @@
 class Solution {
 public:
     
-    void level_order(TreeNode* root, vector<vector<int>> &result, int level, int &max_level) {
+    void traverse(TreeNode* root, vector<vector<int>> &result, int level, int &max_level) {
         
-        //base case
         if(!root) {
             return;
         }
         
         if(level > max_level) {
-            max_level = level;
             result.push_back({root->val});
+            max_level = level;
         }
         else {
             result[level-1].push_back(root->val);
         }
         
-        level_order(root->left, result, level+1, max_level);
-        level_order(root->right, result, level+1, max_level);
+        traverse(root->left, result, level+1, max_level);
+        traverse(root->right, result, level+1, max_level);
         
     }
+    
     
     vector<vector<int>> levelOrder(TreeNode* root) {
         vector<vector<int>> result;
         int max_level = 0;
-        level_order(root, result, 1, max_level);
+        traverse(root, result, 1, max_level);
         return result;
     }
 };
