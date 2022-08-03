@@ -22,35 +22,53 @@
 class Solution {
 public:
     
-    TreeNode* make_tree(vector<int> nums, int low, int high) {
+    int get_val(ListNode* head, int index) {
         
-        if(low > high) {
+        int cnt = 0;
+        while(head) {
+            if(index == cnt) {
+                return head->val;
+            }
+            cnt++;
+            head = head->next;
+        }
+        
+        return -1;
+        
+    }
+    
+    TreeNode* create(ListNode* head, int start, int end) {
+        
+        if(start > end) {
             return NULL;
         }
         
-        int mid = low + (high - low)/2;
+        int mid = start + (end - start)/2;
         
-        TreeNode* root = new TreeNode(nums[mid]);
-        root->left = make_tree(nums, low, mid - 1);
-        root->right = make_tree(nums, mid + 1, high);
+        TreeNode* new_node = new TreeNode(get_val(head, mid));
         
-        return root;
+        if(start == end) {
+            return new_node;
+        }
         
+        new_node->left = create(head, start, mid-1);
+        new_node->right = create(head, mid+1, end);
+        
+        return new_node;
+        
+    }
+    
+    int get_length(ListNode* head) {
+        int cnt = 0;
+        while(head) {
+            cnt++;
+            head = head->next;
+        }
+        return cnt;
     }
     
     
     TreeNode* sortedListToBST(ListNode* head) {
-        
-        vector<int> nums;
-        ListNode* p = head;
-        while(p) {
-            nums.push_back(p->val);
-            p = p->next;
-        }
-        
-        int low = 0, high = nums.size() - 1;
-        return make_tree(nums, low, high);
-        
-        
+        return create(head, 0, get_length(head) - 1);
     }
 };
